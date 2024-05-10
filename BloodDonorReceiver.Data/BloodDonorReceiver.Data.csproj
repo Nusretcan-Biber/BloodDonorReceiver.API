@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BloodDonorReceiver.Core\BloodDonorReceiver.Core.csproj" />
+  </ItemGroup>
+
 </Project>

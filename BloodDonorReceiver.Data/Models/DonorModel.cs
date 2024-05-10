@@ -1,8 +1,9 @@
 ﻿using BloodDonorReceiver.Data.Enums;
+using BloodDonorReceiver.Core.BaseModel;
 
 namespace BloodDonorReceiver.Data.Models
 {
-    public class DonorModel
+    public class DonorModel : BaseModel
     {
         public string Name { get; set; }
         public string Surname { get; set; }
