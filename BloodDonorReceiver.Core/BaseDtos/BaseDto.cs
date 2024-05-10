@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BloodDonorReceiver.Core.BaseDtos
 {
-    internal class BaseDto
+    public class BaseDto : IBaseDto
     {
     }
 }

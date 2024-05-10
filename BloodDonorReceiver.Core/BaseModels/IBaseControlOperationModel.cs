@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace BloodDonorReceiver.Core.BaseModels
 {
-    internal class IBaseControlOperationModel
+    public interface IBaseControlOperationModel
     {
+        public bool IsUpdated { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

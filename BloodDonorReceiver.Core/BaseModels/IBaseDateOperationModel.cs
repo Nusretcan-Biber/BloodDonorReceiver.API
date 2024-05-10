@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace BloodDonorReceiver.Core.BaseModels
 {
-    internal class IBaseDateOperationModel
+    public interface IBaseDateOperationModel
     {
+        public DateTime CreatedDate { get; set; }
+        public DateTime? UpdatedDate { get; set; }
+        public DateTime? DeletedDate { get; set; }
     }
 }
