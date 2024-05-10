@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BloodDonorReceiver.Data.Enums;
 
 namespace BloodDonorReceiver.Data.Models
 {
@@ -16,7 +10,7 @@ namespace BloodDonorReceiver.Data.Models
         public string Gender { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
-        public  MyProperty { get; set; }
+        public BloodTypeEnum BloodType{ get; set; }
 
     }
 }
