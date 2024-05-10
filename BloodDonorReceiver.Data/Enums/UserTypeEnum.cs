@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BloodDonorReceiver.Data.Enums
+﻿namespace BloodDonorReceiver.Data.Enums
 {
-    internal class UserTypeEnum
+    public enum UserTypeEnum
     {
+        DEFAULT,
+        DONOR,
+        RECEIVER,
+        EMPLOYEE_OF_KIZILAY
     }
 }
