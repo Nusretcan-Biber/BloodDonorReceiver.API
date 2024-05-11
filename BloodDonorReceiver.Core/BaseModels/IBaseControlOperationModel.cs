@@ -9,6 +9,5 @@ namespace BloodDonorReceiver.Core.BaseModels
     public interface IBaseControlOperationModel
     {
         public bool IsUpdated { get; set; }
-        public bool IsDeleted { get; set; }
     }
 }
