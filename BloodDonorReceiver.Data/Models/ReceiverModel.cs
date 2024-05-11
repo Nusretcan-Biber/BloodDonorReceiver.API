@@ -1,11 +1,6 @@
 ﻿using BloodDonorReceiver.Core.BaseModel;
 using BloodDonorReceiver.Data.Enums;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BloodDonorReceiver.Data.Models
 {
@@ -19,6 +14,8 @@ namespace BloodDonorReceiver.Data.Models
         public string Email { get; set; }
         public BloodTypeEnum BloodType { get; set; }
 
+
+        public virtual UserModel Users { get; set; }
 
         public ReceiverModel([NotNull] string name,
                              [NotNull] string surname,

@@ -1,3 +1,6 @@
+using BloodDonorReceiver.DataAccess.Context;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,7 +10,16 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddDbContext<MasterContext>(x => x.UseNpgsql(Environment.GetEnvironmentVariable("POSTGRESQL_URI")));
+
 var app = builder.Build();
+
+
+using (IServiceScope serviceScope = app.Services.CreateScope())
+{
+    MasterContext context = serviceScope.ServiceProvider.GetRequiredService<MasterContext>();
+    context.Database.Migrate();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

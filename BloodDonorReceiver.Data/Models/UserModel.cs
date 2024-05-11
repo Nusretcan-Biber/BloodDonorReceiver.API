@@ -7,13 +7,15 @@ namespace BloodDonorReceiver.Data.Models
     {
         public string Name { get; set; }
         public string Surname { get; set; }
-        public string TCNO {  get; set; }
+        public string TCNO { get; set; }
         public string Birthday { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public string Password { get; set; }
         public string ConfirmPassword { get; set; }
 
+        public virtual ICollection<DonorModel> Donors { get; set; }
+        public virtual ICollection<ReceiverModel> Receivers { get; set; }
         public UserModel([NotNull] string name,
                          [NotNull] string surname,
                          [NotNull] string tCNO,

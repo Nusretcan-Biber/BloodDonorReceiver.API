@@ -14,6 +14,7 @@ namespace BloodDonorReceiver.Data.Models
         public string Email { get; set; }
         public BloodTypeEnum BloodType{ get; set; }
 
+        public virtual UserModel Users { get; set; }
         public DonorModel([NotNull] string name,
                           [NotNull] string surname,
                           [NotNull] string birthday,
