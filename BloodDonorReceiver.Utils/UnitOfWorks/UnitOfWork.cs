@@ -122,7 +122,7 @@ namespace BloodDonorReceiver.Utils.UnitOfWorks
         #region IDispose Members
         public void Dispose()
         {
-            throw new NotImplementedException();
+            DbContext = null;
         }
         #endregion
     }
