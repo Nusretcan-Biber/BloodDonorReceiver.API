@@ -4,6 +4,7 @@ using BloodDonorReceiver.Data.Dtos;
 using BloodDonorReceiver.Data.Models;
 using BloodDonorReceiver.DataAccess.Context;
 using BloodDonorReceiver.Utils.AutoMapper;
+using BloodDonorReceiver.Utils.Extensions;
 using BloodDonorReceiver.Utils.UnitOfWorks;
 
 namespace BloodDonorReceiver.Business.ModelServices
@@ -57,16 +58,20 @@ namespace BloodDonorReceiver.Business.ModelServices
         {
             using (var uow = new UnitOfWork<MasterContext>())
             {
-                var isExistUser = uow.GetRepository<UserModel>().Any(x => x.TCNO.Equals(user.TCNO));
-                if (isExistUser)
+                var isExistUser = uow.GetRepository<UserModel>().Get(x => x.TCNO.Equals(user.TCNO));
+                if (isExistUser == null)
                     return new ErrorResponseModel("Böyle bir kullanıcı bulunmamaktadır.");
-                var updatedUser = MappingProfile<UpdateUserDto, UserModel>.Instance.Mapper.Map<UserModel>(user);
-                uow.GetRepository<UserModel>().Update(updatedUser);
+                var updatedUser = CheckNullValuesAndMappingForUpdateUserExtension.CheckNullValuesAndMapping(user, isExistUser);
+                var mappedUser = MappingProfile<UpdateUserDto, UserModel>.Instance.Mapper.Map<UserModel>(updatedUser);
+                uow.GetRepository<UserModel>().Update(mappedUser);
                 if (uow.SaveChanges() < 0)
                     return new ErrorResponseModel("Kullanıcı güncellenemedi. İşlem başarısız");
                 return new SuccessResponseModel<UserModel>("Kullanıcı güncellendi. İşlem başarılı");
 
             }
         }
+
+
+        
     }
 }
