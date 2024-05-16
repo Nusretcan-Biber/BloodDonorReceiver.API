@@ -17,6 +17,11 @@ namespace BloodDonorReceiver.Data.Models
         public string IsCronicIllness { get; set; }
 
         public virtual UserModel Users { get; set; }
+
+        internal DonorModel()
+        {
+            
+        }
         public DonorModel([NotNull] string name,
                           [NotNull] string surname,
                           [NotNull] string birthday,
