@@ -62,8 +62,8 @@ namespace BloodDonorReceiver.Business.ModelServices
                 if (isExistUser == null)
                     return new ErrorResponseModel("Böyle bir kullanıcı bulunmamaktadır.");
                 var updatedUser = CheckNullValuesAndMappingForUpdateUserExtension.CheckNullValuesAndMapping(user, isExistUser);
-                var mappedUser = MappingProfile<UpdateUserDto, UserModel>.Instance.Mapper.Map<UserModel>(updatedUser);
-                uow.GetRepository<UserModel>().Update(mappedUser);
+                
+                uow.GetRepository<UserModel>().Update(updatedUser);
                 if (uow.SaveChanges() < 0)
                     return new ErrorResponseModel("Kullanıcı güncellenemedi. İşlem başarısız");
                 return new SuccessResponseModel<UserModel>("Kullanıcı güncellendi. İşlem başarılı");

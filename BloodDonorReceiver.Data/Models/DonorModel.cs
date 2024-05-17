@@ -13,8 +13,8 @@ namespace BloodDonorReceiver.Data.Models
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public BloodTypeEnum BloodType{ get; set; }
-        public string? Description { get; set; }
-        public string IsCronicIllness { get; set; }
+        public string Description { get; set; }
+        public bool IsCronicIllness { get; set; }
 
         public virtual UserModel Users { get; set; }
 
@@ -30,7 +30,7 @@ namespace BloodDonorReceiver.Data.Models
                           [NotNull] string email,
                           [NotNull] BloodTypeEnum bloodType,
                           string description,
-                          [NotNull]string ısCronicIllness)
+                          [NotNull] bool ısCronicIllness)
         {
             Name = name;
             Surname = surname;

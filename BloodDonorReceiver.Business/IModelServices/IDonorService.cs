@@ -14,5 +14,7 @@ namespace BloodDonorReceiver.Business.IModelServices
         public BaseResponseModel CreateDonor(DonorDto donorDto);
         public BaseResponseModel GetDonorByCity(string City);
         public BaseResponseModel GetDonorByBloodType(BloodTypeEnum bloodType);
+        public BaseResponseModel UpdateDonor(UpdateDonorDto donorDto);
+        public BaseResponseModel DeleteDonor(string Email, string phoneNumber);
     }
 }
