@@ -5,6 +5,6 @@ namespace BloodDonorReceiver.Business.IModelServices
     public interface ICityAndStateService
     {
         public List<CityModel> GetAllCities();
-        public List<StateModel> GetAllStates();
+        public List<StateModel> GetAllCitysStates(int cityId);
     }
 }

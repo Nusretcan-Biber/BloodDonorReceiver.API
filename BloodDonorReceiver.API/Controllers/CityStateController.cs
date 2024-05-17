@@ -21,9 +21,9 @@ namespace BloodDonorReceiver.API.Controllers
 
 
         [HttpGet(nameof(GetAllStates))]
-        public IActionResult GetAllStates()
+        public IActionResult GetAllStates(int cityId)
         {
-            var result = _cityStateService.GetAllStates();
+            var result = _cityStateService.GetAllCitysStates(cityId);
             if (result == null)
                 return BadRequest(result);
             return Ok(result);

@@ -83,6 +83,47 @@ namespace BloodDonorReceiver.Utils.InitialHelper
                     uow.SaveChanges();
                 }
             }
+
+
+            using (var package = new ExcelPackage(new FileInfo(Environment.GetEnvironmentVariable("BLOOD_CENTER_FILE_PATH"))))
+            {
+                var worksheetBloodCenters = package.Workbook.Worksheets[0];
+                var rowCountBloodCenters = worksheetBloodCenters.Dimension.Rows;
+
+                using (var uow = new UnitOfWork<MasterContext>())
+                {
+                    for (int centerRow = 2; centerRow <= rowCountBloodCenters; centerRow++)
+                    {
+                        var teamId = worksheetBloodCenters.Cells[centerRow, 1].Text;
+                        var teamName = worksheetBloodCenters.Cells[centerRow, 2].Text;
+                        var bloodDonationCenterName = worksheetBloodCenters.Cells[centerRow, 3].Text;
+                        var address = worksheetBloodCenters.Cells[centerRow, 4].Text;
+                        var cityId = worksheetBloodCenters.Cells[centerRow, 5].Text;
+                        var stateId = worksheetBloodCenters.Cells[centerRow, 7].Text;
+                        var phoneNumber = worksheetBloodCenters.Cells[centerRow, 8].Text;
+
+
+
+                        var isExistBloodCenter = uow.GetRepository<BloodCenterModel>().Get(x => x.TeamId.Equals(teamId));
+                        if (isExistBloodCenter == null)
+                        {
+                            var bloodCenter = new BloodCenterModel()
+                            {
+                                TeamId = teamId,
+                                Address = address,
+                                BloodDonationCenterName = bloodDonationCenterName,
+                                CityId = int.Parse(cityId),
+                                PhoneNumber = phoneNumber,
+                                StateId = int.Parse(stateId),
+                                TeamName = teamName
+                            };
+                            uow.GetRepository<BloodCenterModel>().Add(bloodCenter);
+                        }
+
+                    }
+                    uow.SaveChanges();
+                }
+            }
         }
 
 

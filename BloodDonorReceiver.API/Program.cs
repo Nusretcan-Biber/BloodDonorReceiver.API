@@ -29,7 +29,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-using (new Init()) ;
+
+//burayý bir kez çalýþtýrdýktan sonra yorum satýrýna alabilirsiniz.
+//bu sayede sistem daha hýzlý baþlayacaktýr
+//using (new Init()) ;
 app.UseAuthorization();
 
 app.MapControllers();

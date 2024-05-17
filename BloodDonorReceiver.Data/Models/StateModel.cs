@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace BloodDonorReceiver.Data.Models
+﻿namespace BloodDonorReceiver.Data.Models
 {
     public class StateModel
     {
@@ -9,6 +7,8 @@ namespace BloodDonorReceiver.Data.Models
         public int CityId { get; set; }
 
         public virtual CityModel City { get; set; }
+        public virtual ICollection<BloodCenterModel> BloodCenters { get; set; }
+
 
     }
 }

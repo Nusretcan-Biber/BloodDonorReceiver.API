@@ -1,12 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BloodDonorReceiver.Data.Models
+﻿namespace BloodDonorReceiver.Data.Models
 {
-    internal class BloodCenterModel
+    public class BloodCenterModel
     {
+        public string TeamId { get; set; }
+        public string TeamName { get; set; }
+        public string BloodDonationCenterName {  get; set; }
+        public string Address { get; set; }
+        public string PhoneNumber { get; set; }
+        public int CityId { get; set; }
+        public int StateId { get; set; }
+
+
+
+        public virtual CityModel City { get; set; }
+        public virtual StateModel State { get; set;}
+
     }
 }

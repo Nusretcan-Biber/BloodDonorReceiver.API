@@ -19,11 +19,11 @@ namespace BloodDonorReceiver.Business.ModelServices
             }
         }
 
-        public List<StateModel> GetAllStates()
+        public List<StateModel> GetAllCitysStates(int cityId)
         {
             using (var uow = new UnitOfWork<MasterContext>())
             {
-                var stateList = uow.GetRepository<StateModel>().GetAll().AsNoTracking().ToList();
+                var stateList = uow.GetRepository<StateModel>().GetAll(x=> x.CityId == cityId).AsNoTracking().ToList();
                 if (stateList.Count < 0)
                     return null;
                 return stateList;
