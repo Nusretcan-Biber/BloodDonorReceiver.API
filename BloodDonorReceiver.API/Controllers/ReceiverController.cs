@@ -5,35 +5,34 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BloodDonorReceiver.API.Controllers
 {
-
     [Route("api/[controller]")]
     [ApiController]
-    public class DonorController : ControllerBase
+    public class ReceiverController : ControllerBase
     {
-        private IDonorService _donorService = new DonorService();
+        private IReceiverService _receiverService = new ReceiverService();
 
-        [HttpPost(nameof(CreateDonor))]
-        public IActionResult CreateDonor(DonorDto donorDto)
+        [HttpPost(nameof(CreateReceiver))]
+        public IActionResult CreateReceiver(ReceiverDto receiverDto)
         {
-            var result = _donorService.CreateDonor(donorDto);
+            var result = _receiverService.CreateReceiver(receiverDto);
             if (result.StatusCode == System.Net.HttpStatusCode.OK)
                 return Ok(result);
             return BadRequest(result);
         }
 
-        [HttpPut(nameof(UpdateDonor))]
-        public IActionResult UpdateDonor(UpdateDonorDto updateDonorDto)
+        [HttpPut(nameof(UpdateReceiver))]
+        public IActionResult UpdateReceiver(UpdateReceiverDto updateReceiverDto)
         {
-            var result = _donorService.UpdateDonor(updateDonorDto);
+            var result = _receiverService.UpdateReceiver(updateReceiverDto);
             if (result.StatusCode == System.Net.HttpStatusCode.OK)
                 return Ok(result);
             return BadRequest(result);
         }
 
-        [HttpDelete(nameof(DeleteDonor))]
-        public IActionResult DeleteDonor(string Email, string phoneNumber)
+        [HttpDelete(nameof(DeleteUser))]
+        public IActionResult DeleteUser(string Email, string phoneNumber)
         {
-            var result = _donorService.DeleteDonor(Email,phoneNumber);
+            var result = _receiverService.DeleteReceiver(Email, phoneNumber);
             if (result.StatusCode == System.Net.HttpStatusCode.OK)
                 return Ok(result);
             return BadRequest(result);

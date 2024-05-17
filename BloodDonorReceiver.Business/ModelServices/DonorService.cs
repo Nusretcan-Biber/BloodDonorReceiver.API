@@ -58,7 +58,7 @@ namespace BloodDonorReceiver.Business.ModelServices
                 uow.GetRepository<DonorModel>().Update(updatedDonor);
                 if (uow.SaveChanges() < 0)
                     return new ErrorResponseModel("Bağışçı güncellenemedi. İşlem başarısız");
-                return new SuccessResponseModel<UserModel>("Bağışçı güncellendi. İşlem başarılı");
+                return new SuccessResponseModel<DonorModel>("Bağışçı güncellendi. İşlem başarılı");
             }
         }
 

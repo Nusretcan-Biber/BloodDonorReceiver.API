@@ -45,5 +45,23 @@ namespace BloodDonorReceiver.Utils.Extensions
 
             return donorModel;
         }
+
+        public static ReceiverModel CheckNullValuesAndMapping(this UpdateReceiverDto updateReceiverDto, ReceiverModel receiverModel)
+        {
+            if (!string.IsNullOrEmpty(updateReceiverDto.Name))
+                receiverModel.Name = updateReceiverDto.Name;
+            if (!string.IsNullOrEmpty(updateReceiverDto.Surname))
+                receiverModel.Surname = updateReceiverDto.Surname;
+            if (!string.IsNullOrEmpty(updateReceiverDto.Birthday))
+                receiverModel.Birthday = updateReceiverDto.Birthday;
+            if (!string.IsNullOrEmpty(updateReceiverDto.Gender))
+                receiverModel.Gender = updateReceiverDto.Gender;
+            if (!string.IsNullOrEmpty(updateReceiverDto.Description))
+                receiverModel.Description = updateReceiverDto.Description;
+            if (updateReceiverDto.BloodType.HasValue)
+                receiverModel.BloodType = Enum.Parse<BloodTypeEnum>(updateReceiverDto.BloodType.ToString());
+
+            return receiverModel;
+        }
     }
 }
