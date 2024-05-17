@@ -20,6 +20,8 @@ namespace BloodDonorReceiver.DataAccess.Context
         public DbSet<UserModel> Users { get; set; }
         public DbSet<DonorModel> Donors { get; set; }
         public DbSet<ReceiverModel> Receivers { get; set; }
+        public DbSet<CityModel> Cities { get; set; }
+        public DbSet<StateModel> States { get; set; }
 
         #endregion
 
@@ -29,12 +31,15 @@ namespace BloodDonorReceiver.DataAccess.Context
             modelBuilder.Entity<UserModel>().HasKey(x => x.Guid);
             modelBuilder.Entity<DonorModel>().HasKey(x => x.Guid);
             modelBuilder.Entity<ReceiverModel>().HasKey(x => x.Guid);
+            modelBuilder.Entity<CityModel>().HasKey(x => x.ID);
+            modelBuilder.Entity<StateModel>().HasKey(x => x.ID);
 
             modelBuilder.Entity<DonorModel>().Property(x => x.BloodType).HasConversion<short>();
             modelBuilder.Entity<ReceiverModel>().Property(x => x.BloodType).HasConversion<short>();
 
             modelBuilder.Entity<DonorModel>().HasOne(a => a.Users).WithMany(x => x.Donors).HasForeignKey(a => a.Guid).HasConstraintName("UserGuid");
             modelBuilder.Entity<ReceiverModel>().HasOne(a => a.Users).WithMany(x => x.Receivers).HasForeignKey(a => a.Guid).HasConstraintName("UserGuid");
+            modelBuilder.Entity<CityModel>().HasMany(a => a.States).WithOne(x => x.City).HasForeignKey(a => a.CityId).HasConstraintName("CityId");
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

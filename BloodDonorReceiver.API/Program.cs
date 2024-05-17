@@ -1,4 +1,5 @@
 using BloodDonorReceiver.DataAccess.Context;
+using BloodDonorReceiver.Utils.InitialHelper;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,6 +29,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+using (new Init()) ;
 app.UseAuthorization();
 
 app.MapControllers();
