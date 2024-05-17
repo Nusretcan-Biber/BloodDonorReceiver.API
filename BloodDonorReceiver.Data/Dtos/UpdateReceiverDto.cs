@@ -2,7 +2,7 @@
 
 namespace BloodDonorReceiver.Data.Dtos
 {
-    public class UpdateDonorDto
+    public class UpdateReceiverDto
     {
         public string? Name { get; set; }
         public string? Surname { get; set; }
@@ -12,7 +12,7 @@ namespace BloodDonorReceiver.Data.Dtos
         public string? Email { get; set; }
         public BloodTypeEnum? BloodType { get; set; }
         public string? Description { get; set; }
-        public bool? IsCronicIllness { get; set; } = false;
-        public string TCNO {  get; set; }
+        public string TCNO { get; set; }
+
     }
 }

@@ -76,10 +76,12 @@ namespace BloodDonorReceiver.Business.ModelServices
                 if (isExistDonor == null)
                     return new ErrorResponseModel("Böyle bir kan bağışçısı bulunmamaktadır");
                 var updatedDonor = CheckNullValuesAndMappingForUpdateUserExtension.CheckNullValuesAndMapping(donorDto, isExistDonor);
+                updatedDonor.IsUpdated = true;
+                updatedDonor.UpdatedDate = DateTime.UtcNow;
                 uow.GetRepository<DonorModel>().Update(updatedDonor);
                 if (uow.SaveChanges() < 0)
                     return new ErrorResponseModel("Bağışçı güncellenemedi. İşlem başarısız");
-                return new SuccessResponseModel<UserModel>("Bağışçı güncellendi. İşlem başarılı");
+                return new SuccessResponseModel<DonorModel>("Bağışçı güncellendi. İşlem başarılı");
             }
         }
 

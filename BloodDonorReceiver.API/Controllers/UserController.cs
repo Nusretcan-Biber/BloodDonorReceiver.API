@@ -21,7 +21,7 @@ namespace BloodDonorReceiver.API.Controllers
         }
 
         [HttpPut(nameof(UpdateUser))]
-        public IActionResult UpdateUser(UpdateUserDto user)
+        public IActionResult UpdateUser([FromQuery]UpdateUserDto user)
         {
             var result = _userService.UpdateUser(user);
             if (result.StatusCode == System.Net.HttpStatusCode.OK)
