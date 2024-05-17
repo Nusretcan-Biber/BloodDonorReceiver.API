@@ -9,11 +9,12 @@ namespace BloodDonorReceiver.Data.Models
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Birthday { get; set; }
-        public string Gender { get; set; }
+        public GenderTypeEnum Gender { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public BloodTypeEnum BloodType { get; set; }
         public string? Description { get; set; }
+        public Guid UserGuid { get; set; }
 
 
         public virtual UserModel Users { get; set; }
@@ -21,7 +22,7 @@ namespace BloodDonorReceiver.Data.Models
         public ReceiverModel([NotNull] string name,
                              [NotNull] string surname,
                              [NotNull] string birthday,
-                             [NotNull] string gender,
+                             [NotNull] GenderTypeEnum gender,
                              [NotNull] string phoneNumber,
                              [NotNull] string email,
                              [NotNull] BloodTypeEnum bloodType,

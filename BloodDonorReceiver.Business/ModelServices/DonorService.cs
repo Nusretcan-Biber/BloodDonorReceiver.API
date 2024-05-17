@@ -18,11 +18,32 @@ namespace BloodDonorReceiver.Business.ModelServices
 {
     public class DonorService : IDonorService
     {
+        private IUserService _userService = new UserService();
         public BaseResponseModel CreateDonor(DonorDto donorDto)
         {
             using (var uow = new UnitOfWork<MasterContext>())
             {
-                var createdDonor = MappingProfile<DonorDto,DonorModel>.Instance.Mapper.Map<DonorModel>(donorDto);
+                var createdDonor = MappingProfile<DonorDto, DonorModel>.Instance.Mapper.Map<DonorModel>(donorDto);
+                var user = uow.GetRepository<UserModel>().Get(x => x.TCNO.Equals(donorDto.TCNO));
+                if (user == null)
+                {
+                    var userDto = new UserDto()
+                    {
+                        Birthday = donorDto.Birthday,
+                        Name = donorDto.Name,
+                        Email = donorDto.Email,
+                        PhoneNumber = donorDto.PhoneNumber,
+                        Surname = donorDto.Surname,
+                        Password = donorDto.Name + "." + donorDto.Surname,
+                        ConfirmPassword = donorDto.Name + "." + donorDto.Surname,
+                        TCNO = donorDto.TCNO
+                    };
+                    var result = _userService.CreateUser(userDto);
+                    if (result.StatusCode != System.Net.HttpStatusCode.OK)
+                        return new ErrorResponseModel();
+                    user = uow.GetRepository<UserModel>().Get(x => x.TCNO.Equals(donorDto.TCNO));
+                }
+                createdDonor.UserGuid = user.Guid;
                 uow.GetRepository<DonorModel>().Add(createdDonor);
                 if (uow.SaveChanges() < 0)
                     return new ErrorResponseModel("Bağışçı kayıt edilemedi");
@@ -51,10 +72,10 @@ namespace BloodDonorReceiver.Business.ModelServices
         {
             using (var uow = new UnitOfWork<MasterContext>())
             {
-                var isExistDonor = uow.GetRepository<DonorModel>().Get(x=> x.Email.Equals(donorDto.Email) && x.PhoneNumber.Equals(donorDto.PhoneNumber));
+                var isExistDonor = uow.GetRepository<DonorModel>().Get(x => x.TCNO.Equals(donorDto.TCNO));
                 if (isExistDonor == null)
                     return new ErrorResponseModel("Böyle bir kan bağışçısı bulunmamaktadır");
-                var updatedDonor = CheckNullValuesAndMappingForUpdateUserExtension.CheckNullValuesAndMapping(donorDto,isExistDonor);
+                var updatedDonor = CheckNullValuesAndMappingForUpdateUserExtension.CheckNullValuesAndMapping(donorDto, isExistDonor);
                 uow.GetRepository<DonorModel>().Update(updatedDonor);
                 if (uow.SaveChanges() < 0)
                     return new ErrorResponseModel("Bağışçı güncellenemedi. İşlem başarısız");
@@ -62,11 +83,11 @@ namespace BloodDonorReceiver.Business.ModelServices
             }
         }
 
-        public BaseResponseModel DeleteDonor(string Email, string phoneNumber)
+        public BaseResponseModel DeleteDonor(string tcno)
         {
             using (var uow = new UnitOfWork<MasterContext>())
             {
-                var isExistDonor = uow.GetRepository<DonorModel>().Get(x => x.Email.Equals(Email) && x.PhoneNumber.Equals(phoneNumber));
+                var isExistDonor = uow.GetRepository<DonorModel>().Get(x => x.TCNO.Equals(tcno));
                 if (isExistDonor == null)
                     return new ErrorResponseModel("Böyle bir bağışçı bulunamamaktadır.");
                 uow.GetRepository<DonorModel>().Delete(isExistDonor);

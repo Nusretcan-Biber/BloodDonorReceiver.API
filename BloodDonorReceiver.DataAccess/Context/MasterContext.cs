@@ -39,8 +39,11 @@ namespace BloodDonorReceiver.DataAccess.Context
             modelBuilder.Entity<DonorModel>().Property(x => x.BloodType).HasConversion<short>();
             modelBuilder.Entity<ReceiverModel>().Property(x => x.BloodType).HasConversion<short>();
 
-            modelBuilder.Entity<DonorModel>().HasOne(a => a.Users).WithMany(x => x.Donors).HasForeignKey(a => a.Guid);
-            modelBuilder.Entity<ReceiverModel>().HasOne(a => a.Users).WithMany(x => x.Receivers).HasForeignKey(a => a.Guid);
+            modelBuilder.Entity<DonorModel>().Property(x => x.Gender).HasConversion<short>();
+            modelBuilder.Entity<ReceiverModel>().Property(x => x.Gender).HasConversion<short>();
+
+            modelBuilder.Entity<UserModel>().HasMany(a => a.Donors).WithOne(x => x.Users).HasForeignKey(a => a.UserGuid);
+            modelBuilder.Entity<UserModel>().HasMany(a => a.Receivers).WithOne(x => x.Users).HasForeignKey(a => a.UserGuid);
 
             modelBuilder.Entity<BloodCenterModel>().HasOne(a => a.City).WithMany(x => x.BloodCenters).HasForeignKey(a => a.CityId);
             modelBuilder.Entity<BloodCenterModel>().HasOne(a => a.State).WithMany(x => x.BloodCenters).HasForeignKey(a => a.StateId);

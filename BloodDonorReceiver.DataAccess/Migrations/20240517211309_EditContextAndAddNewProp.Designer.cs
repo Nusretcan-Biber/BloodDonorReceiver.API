@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BloodDonorReceiver.DataAccess.Migrations
 {
     [DbContext(typeof(MasterContext))]
-    [Migration("20240517192228_forDonorDescription")]
-    partial class forDonorDescription
+    [Migration("20240517211309_EditContextAndAddNewProp")]
+    partial class EditContextAndAddNewProp
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -81,6 +81,7 @@ namespace BloodDonorReceiver.DataAccess.Migrations
             modelBuilder.Entity("BloodDonorReceiver.Data.Models.DonorModel", b =>
                 {
                     b.Property<Guid>("Guid")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<string>("Birthday")
@@ -101,9 +102,8 @@ namespace BloodDonorReceiver.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Gender")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<short>("Gender")
+                        .HasColumnType("smallint");
 
                     b.Property<bool>("IsCronicIllness")
                         .HasColumnType("boolean");
@@ -123,10 +123,19 @@ namespace BloodDonorReceiver.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("TCNO")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<Guid>("UserGuid")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Guid");
+
+                    b.HasIndex("UserGuid");
 
                     b.ToTable("Donors");
                 });
@@ -134,6 +143,7 @@ namespace BloodDonorReceiver.DataAccess.Migrations
             modelBuilder.Entity("BloodDonorReceiver.Data.Models.ReceiverModel", b =>
                 {
                     b.Property<Guid>("Guid")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<string>("Birthday")
@@ -153,9 +163,8 @@ namespace BloodDonorReceiver.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Gender")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<short>("Gender")
+                        .HasColumnType("smallint");
 
                     b.Property<bool>("IsUpdated")
                         .HasColumnType("boolean");
@@ -175,7 +184,12 @@ namespace BloodDonorReceiver.DataAccess.Migrations
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<Guid>("UserGuid")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Guid");
+
+                    b.HasIndex("UserGuid");
 
                     b.ToTable("Receivers");
                 });
@@ -277,7 +291,7 @@ namespace BloodDonorReceiver.DataAccess.Migrations
                 {
                     b.HasOne("BloodDonorReceiver.Data.Models.UserModel", "Users")
                         .WithMany("Donors")
-                        .HasForeignKey("Guid")
+                        .HasForeignKey("UserGuid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -288,7 +302,7 @@ namespace BloodDonorReceiver.DataAccess.Migrations
                 {
                     b.HasOne("BloodDonorReceiver.Data.Models.UserModel", "Users")
                         .WithMany("Receivers")
-                        .HasForeignKey("Guid")
+                        .HasForeignKey("UserGuid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

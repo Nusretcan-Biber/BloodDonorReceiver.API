@@ -9,6 +9,8 @@ namespace BloodDonorReceiver.Utils.Extensions
     {
         public static UserModel CheckNullValuesAndMapping(this UpdateUserDto userDto, UserModel user)
         {
+            if (string.IsNullOrEmpty(userDto.TCNO))
+                throw new NullReferenceException("TC Kimlik Numarası alanı boş bırakılamaz. Lütfen bu bilginin dolu olduğundan emin olup tekrar deneyiniz.\n");
             if (!string.IsNullOrEmpty(userDto.Name))
                 user.Name = userDto.Name;
             if (!string.IsNullOrEmpty(userDto.Surname))
@@ -28,14 +30,16 @@ namespace BloodDonorReceiver.Utils.Extensions
         }
         public static DonorModel CheckNullValuesAndMapping(this UpdateDonorDto donorDto, DonorModel donorModel)
         {
+            if (string.IsNullOrEmpty(donorDto.TCNO))
+                throw new NullReferenceException("TC Kimlik Numarası alanı boş bırakılamaz. Lütfen bu bilginin dolu olduğundan emin olup tekrar deneyiniz.\n");
             if (!string.IsNullOrEmpty(donorDto.Name))
                 donorModel.Name = donorDto.Name;
             if (!string.IsNullOrEmpty(donorDto.Surname))
                 donorModel.Surname = donorDto.Surname;
             if (!string.IsNullOrEmpty(donorDto.Birthday))
                 donorModel.Birthday = donorDto.Birthday;
-            if (!string.IsNullOrEmpty(donorDto.Gender))
-                donorModel.Gender = donorDto.Gender;
+            if (donorDto.BloodType.HasValue)
+                donorModel.BloodType = Enum.Parse<BloodTypeEnum>(donorDto.BloodType.ToString());
             if (!string.IsNullOrEmpty(donorDto.Description))
                 donorModel.Description = donorDto.Description;
             if (donorDto.IsCronicIllness.HasValue)

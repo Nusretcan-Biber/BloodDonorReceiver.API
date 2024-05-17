@@ -21,8 +21,8 @@ namespace BloodDonorReceiver.API.Controllers
             return BadRequest(result);
         }
 
-        [HttpPut(nameof(UpdateUser))]
-        public IActionResult UpdateUser(UpdateDonorDto updateDonorDto)
+        [HttpPut(nameof(UpdateDonor))]
+        public IActionResult UpdateDonor(UpdateDonorDto updateDonorDto)
         {
             var result = _donorService.UpdateDonor(updateDonorDto);
             if (result.StatusCode == System.Net.HttpStatusCode.OK)
@@ -30,10 +30,10 @@ namespace BloodDonorReceiver.API.Controllers
             return BadRequest(result);
         }
 
-        [HttpDelete(nameof(DeleteUser))]
-        public IActionResult DeleteUser(string Email, string phoneNumber)
+        [HttpDelete(nameof(DeleteDonor))]
+        public IActionResult DeleteDonor(string tcno)
         {
-            var result = _donorService.DeleteDonor(Email,phoneNumber);
+            var result = _donorService.DeleteDonor(tcno);
             if (result.StatusCode == System.Net.HttpStatusCode.OK)
                 return Ok(result);
             return BadRequest(result);

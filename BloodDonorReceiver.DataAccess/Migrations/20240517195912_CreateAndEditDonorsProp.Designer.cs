@@ -3,6 +3,7 @@ using System;
 using BloodDonorReceiver.DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BloodDonorReceiver.DataAccess.Migrations
 {
     [DbContext(typeof(MasterContext))]
-    partial class MasterContextModelSnapshot : ModelSnapshot
+    [Migration("20240517195912_CreateAndEditDonorsProp")]
+    partial class CreateAndEditDonorsProp
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,7 +81,6 @@ namespace BloodDonorReceiver.DataAccess.Migrations
             modelBuilder.Entity("BloodDonorReceiver.Data.Models.DonorModel", b =>
                 {
                     b.Property<Guid>("Guid")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<string>("Birthday")
@@ -99,8 +101,8 @@ namespace BloodDonorReceiver.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<short>("Gender")
-                        .HasColumnType("smallint");
+                    b.Property<int>("Gender")
+                        .HasColumnType("integer");
 
                     b.Property<bool>("IsCronicIllness")
                         .HasColumnType("boolean");
@@ -120,19 +122,10 @@ namespace BloodDonorReceiver.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("TCNO")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("UserGuid")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Guid");
-
-                    b.HasIndex("UserGuid");
 
                     b.ToTable("Donors");
                 });
@@ -140,7 +133,6 @@ namespace BloodDonorReceiver.DataAccess.Migrations
             modelBuilder.Entity("BloodDonorReceiver.Data.Models.ReceiverModel", b =>
                 {
                     b.Property<Guid>("Guid")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<string>("Birthday")
@@ -160,8 +152,9 @@ namespace BloodDonorReceiver.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<short>("Gender")
-                        .HasColumnType("smallint");
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<bool>("IsUpdated")
                         .HasColumnType("boolean");
@@ -181,12 +174,7 @@ namespace BloodDonorReceiver.DataAccess.Migrations
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("UserGuid")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Guid");
-
-                    b.HasIndex("UserGuid");
 
                     b.ToTable("Receivers");
                 });
@@ -288,7 +276,7 @@ namespace BloodDonorReceiver.DataAccess.Migrations
                 {
                     b.HasOne("BloodDonorReceiver.Data.Models.UserModel", "Users")
                         .WithMany("Donors")
-                        .HasForeignKey("UserGuid")
+                        .HasForeignKey("Guid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -299,7 +287,7 @@ namespace BloodDonorReceiver.DataAccess.Migrations
                 {
                     b.HasOne("BloodDonorReceiver.Data.Models.UserModel", "Users")
                         .WithMany("Receivers")
-                        .HasForeignKey("UserGuid")
+                        .HasForeignKey("Guid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
