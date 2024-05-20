@@ -18,8 +18,8 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "POSTGRESQL_URI": "User ID=root;Password=root;Host=127.0.0.1;Port=2802;Database=blood_donor_local;Pooling=true;Connection Lifetime=0;",
-        "CITY_STATE_FILE_PATH": "C:\\Users\\P2564\\Freelance\\1.İş - BloodDonorReceiverAPI\\BloodDonorReceiver.API\\il_ilceler.xlsx",
-        "BLOOD_CENTER_FILE_PATH": "C:\\Users\\P2564\\Freelance\\1.İş - BloodDonorReceiverAPI\\BloodDonorReceiver.API\\kizilayMerkezleri.xlsx"
+        "CITY_STATE_FILE_PATH": "DOSYA KONUMU SEÇ\\il_ilceler.xlsx",
+        "BLOOD_CENTER_FILE_PATH": "DOSYA KONUMU SEÇ\\kizilayMerkezleri.xlsx"
       }
     },
     "IIS Express": {
