@@ -2,11 +2,12 @@
 using BloodDonorReceiver.Business.ModelServices;
 using BloodDonorReceiver.Data.Dtos;
 using BloodDonorReceiver.Data.Enums;
+using BloodDonorReceiver.Utils.Attributes;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BloodDonorReceiver.API.Controllers
 {
-
+    [Authentication]
     [Route("api/[controller]")]
     [ApiController]
     public class DonorController : ControllerBase

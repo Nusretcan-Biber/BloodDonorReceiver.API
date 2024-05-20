@@ -1,9 +1,11 @@
 ﻿using BloodDonorReceiver.Business.IModelServices;
 using BloodDonorReceiver.Business.ModelServices;
+using BloodDonorReceiver.Utils.Attributes;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BloodDonorReceiver.API.Controllers
 {
+    [Authentication]
     [Route("api/[controller]")]
     [ApiController]
     public class BloodCenterController : ControllerBase

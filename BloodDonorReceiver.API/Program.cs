@@ -1,6 +1,7 @@
 using BloodDonorReceiver.DataAccess.Context;
 using BloodDonorReceiver.Utils.InitialHelper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,37 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<MasterContext>(x => x.UseNpgsql(Environment.GetEnvironmentVariable("POSTGRESQL_URI")));
+
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo { Title = "BloodDonorReceiver.API", Version = "v1" });
+
+    options.AddSecurityDefinition("basic", new OpenApiSecurityScheme
+    {
+        Type = SecuritySchemeType.Http,
+        Scheme = "basic",
+        Description = "Input your username and password to access this API"
+    });
+
+    var basicSecurityScheme = new OpenApiSecurityScheme
+    {
+        Reference = new OpenApiReference
+        {
+            Type = ReferenceType.SecurityScheme,
+            Id = "basic"
+        }
+    };
+
+    var securityRequirement = new OpenApiSecurityRequirement
+    {
+        { basicSecurityScheme, new List<string>() }
+    };
+
+    options.AddSecurityRequirement(securityRequirement);
+});
+
+
+
 
 var app = builder.Build();
 
