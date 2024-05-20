@@ -13,5 +13,6 @@ namespace BloodDonorReceiver.Data.Dtos
         public BloodTypeEnum BloodType { get; set; }
         public string? Description { get; set; }
         public string TCNO { get; set; }
+        public int CityId { get; set; }
     }
 }

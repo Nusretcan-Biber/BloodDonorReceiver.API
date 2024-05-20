@@ -93,7 +93,7 @@ namespace BloodDonorReceiver.Business.ModelServices
                 var isExistDonor = uow.GetRepository<DonorModel>().Get(x => x.TCNO.Equals(donorDto.TCNO));
                 if (isExistDonor == null)
                     return new ErrorResponseModel("Böyle bir kan bağışçısı bulunmamaktadır");
-                var updatedDonor = CheckNullValuesAndMappingForUpdateUserExtension.CheckNullValuesAndMapping(donorDto, isExistDonor);
+                var updatedDonor = CheckNullValuesAndMappingExtension.CheckNullValuesAndMapping(donorDto, isExistDonor);
                 updatedDonor.IsUpdated = true;
                 updatedDonor.UpdatedDate = DateTime.UtcNow;
                 uow.GetRepository<DonorModel>().Update(updatedDonor);

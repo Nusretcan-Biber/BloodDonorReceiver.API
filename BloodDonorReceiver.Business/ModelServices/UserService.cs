@@ -61,7 +61,7 @@ namespace BloodDonorReceiver.Business.ModelServices
                 var isExistUser = uow.GetRepository<UserModel>().Get(x => x.TCNO.Equals(user.TCNO));
                 if (isExistUser == null)
                     return new ErrorResponseModel("Böyle bir kullanıcı bulunmamaktadır.");
-                var updatedUser = CheckNullValuesAndMappingForUpdateUserExtension.CheckNullValuesAndMapping(user, isExistUser);
+                var updatedUser = CheckNullValuesAndMappingExtension.CheckNullValuesAndMapping(user, isExistUser);
                 updatedUser.IsUpdated = true;
                 updatedUser.UpdatedDate = DateTime.UtcNow;
                 uow.GetRepository<UserModel>().Update(updatedUser);

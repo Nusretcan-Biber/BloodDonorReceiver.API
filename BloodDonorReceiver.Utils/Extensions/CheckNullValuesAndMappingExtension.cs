@@ -1,11 +1,10 @@
 ﻿using BloodDonorReceiver.Data.Dtos;
 using BloodDonorReceiver.Data.Enums;
 using BloodDonorReceiver.Data.Models;
-using System.Diagnostics.CodeAnalysis;
 
 namespace BloodDonorReceiver.Utils.Extensions
 {
-    public static class CheckNullValuesAndMappingForUpdateUserExtension
+    public static class CheckNullValuesAndMappingExtension
     {
         public static UserModel CheckNullValuesAndMapping(this UpdateUserDto userDto, UserModel user)
         {
