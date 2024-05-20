@@ -8,11 +8,6 @@ using BloodDonorReceiver.Utils.AutoMapper;
 using BloodDonorReceiver.Utils.Extensions;
 using BloodDonorReceiver.Utils.UnitOfWorks;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BloodDonorReceiver.Business.ModelServices
 {
@@ -23,30 +18,46 @@ namespace BloodDonorReceiver.Business.ModelServices
         {
             using (var uow = new UnitOfWork<MasterContext>())
             {
-                var createdDonor = MappingProfile<DonorDto, DonorModel>.Instance.Mapper.Map<DonorModel>(donorDto);
-                var user = uow.GetRepository<UserModel>().Get(x => x.TCNO.Equals(donorDto.TCNO));
-                if (user == null)
+                var donor = uow.GetRepository<DonorModel>().Get(x => x.TCNO.Equals(donorDto.TCNO));
+                if (donor == null)
                 {
-                    var userDto = new UserDto()
+                    var createdDonor = MappingProfile<DonorDto, DonorModel>.Instance.Mapper.Map<DonorModel>(donorDto);
+                    var user = uow.GetRepository<UserModel>().Get(x => x.TCNO.Equals(donorDto.TCNO));
+
+                    if (user == null)
                     {
-                        Birthday = donorDto.Birthday,
-                        Name = donorDto.Name,
-                        Email = donorDto.Email,
-                        PhoneNumber = donorDto.PhoneNumber,
-                        Surname = donorDto.Surname,
-                        Password = donorDto.Name + "." + donorDto.Surname,
-                        ConfirmPassword = donorDto.Name + "." + donorDto.Surname,
-                        TCNO = donorDto.TCNO
+                        var userDto = new UserDto()
+                        {
+                            Birthday = donorDto.Birthday,
+                            Name = donorDto.Name,
+                            Email = donorDto.Email,
+                            PhoneNumber = donorDto.PhoneNumber,
+                            Surname = donorDto.Surname,
+                            Password = donorDto.Name + "." + donorDto.Surname,
+                            ConfirmPassword = donorDto.Name + "." + donorDto.Surname,
+                            TCNO = donorDto.TCNO
+                        };
+                        var result = _userService.CreateUser(userDto);
+                        if (result.StatusCode != System.Net.HttpStatusCode.OK)
+                            return new ErrorResponseModel();
+                        user = uow.GetRepository<UserModel>().Get(x => x.TCNO.Equals(donorDto.TCNO));
+                    }
+                    createdDonor.UserGuid = user.Guid;
+
+                    DonorsCitiesModel donorsCitiesModel = new DonorsCitiesModel()
+                    {
+                        Guid = Guid.NewGuid(),
+                        CitysId = createdDonor.CityId,
+                        DonorsGuid = createdDonor.Guid
                     };
-                    var result = _userService.CreateUser(userDto);
-                    if (result.StatusCode != System.Net.HttpStatusCode.OK)
-                        return new ErrorResponseModel();
-                    user = uow.GetRepository<UserModel>().Get(x => x.TCNO.Equals(donorDto.TCNO));
+
+                    uow.GetRepository<DonorModel>().Add(createdDonor);
+                    uow.GetRepository<DonorsCitiesModel>().Add(donorsCitiesModel);
+
+                    if (uow.SaveChanges() < 0)
+                        return new ErrorResponseModel("Bağışçı kayıt edilemedi");
                 }
-                createdDonor.UserGuid = user.Guid;
-                uow.GetRepository<DonorModel>().Add(createdDonor);
-                if (uow.SaveChanges() < 0)
-                    return new ErrorResponseModel("Bağışçı kayıt edilemedi");
+
                 return new SuccessResponseModel<DonorModel>("Bağışçı kaydı başarılı.");
             }
         }
@@ -55,17 +66,24 @@ namespace BloodDonorReceiver.Business.ModelServices
         {
             using (var uow = new UnitOfWork<MasterContext>())
             {
-                var isExistDonor = uow.GetRepository<DonorModel>().GetAll(x => x.BloodType == bloodType).AsNoTracking().ToList();
-                if (isExistDonor == null)
+                var isExistDonorList = uow.GetRepository<DonorModel>().GetAll(x => x.BloodType == bloodType).AsNoTracking().ToList();
+                if (isExistDonorList.Count == 0)
                     return new ErrorResponseModel("Böyle bir kan grubuna sahip donör yok");
-                return new SuccessResponseModel<DonorModel>("Donör bulundu. İşlem başarılı");
+                return new SuccessResponseModel<List<DonorModel>>("Donör bulundu. İşlem başarılı", isExistDonorList);
 
             }
         }
 
-        public BaseResponseModel GetDonorByCity(string City)
+        public BaseResponseModel GetDonorByCity(int cityId)
         {
-            throw new NotImplementedException();
+            using (var uow = new UnitOfWork<MasterContext>())
+            {
+                var isExistDonorList = uow.GetRepository<DonorModel>().GetAll(x => x.CityId == cityId).AsNoTracking().ToList();
+                if (isExistDonorList.Count == 0)
+                    return new ErrorResponseModel("Bu şehirde herhangi bir bağışçı bulunmamaktadır");
+                return new SuccessResponseModel<List<DonorModel>>("Bağışçılar bulundu. İşlem başarılı", isExistDonorList);
+
+            }
         }
 
         public BaseResponseModel UpdateDonor(UpdateDonorDto donorDto)

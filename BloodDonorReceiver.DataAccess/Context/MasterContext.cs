@@ -23,6 +23,7 @@ namespace BloodDonorReceiver.DataAccess.Context
         public DbSet<CityModel> Cities { get; set; }
         public DbSet<StateModel> States { get; set; }
         public DbSet<BloodCenterModel> BloodCenters { get; set; }
+        public DbSet<DonorsCitiesModel> DonorsCities { get; set; }
 
         #endregion
 
@@ -35,6 +36,7 @@ namespace BloodDonorReceiver.DataAccess.Context
             modelBuilder.Entity<CityModel>().HasKey(x => x.ID);
             modelBuilder.Entity<StateModel>().HasKey(x => x.ID);
             modelBuilder.Entity<BloodCenterModel>().HasKey(x => x.TeamId);
+            modelBuilder.Entity<DonorsCitiesModel>().HasKey(x => x.Guid);
 
             modelBuilder.Entity<DonorModel>().Property(x => x.BloodType).HasConversion<short>();
             modelBuilder.Entity<ReceiverModel>().Property(x => x.BloodType).HasConversion<short>();
@@ -48,6 +50,8 @@ namespace BloodDonorReceiver.DataAccess.Context
             modelBuilder.Entity<BloodCenterModel>().HasOne(a => a.City).WithMany(x => x.BloodCenters).HasForeignKey(a => a.CityId);
             modelBuilder.Entity<BloodCenterModel>().HasOne(a => a.State).WithMany(x => x.BloodCenters).HasForeignKey(a => a.StateId);
 
+            modelBuilder.Entity<DonorsCitiesModel>().HasOne(x => x.Donor).WithMany(x => x.DonorsCities).HasForeignKey(x => x.DonorsGuid).HasConstraintName("DonorsGuid");
+            modelBuilder.Entity<DonorsCitiesModel>().HasOne(x => x.City).WithMany(x => x.DonorsCities).HasForeignKey(x => x.CitysId).HasConstraintName("CitysId");
 
 
             modelBuilder.Entity<CityModel>().HasMany(a => a.States).WithOne(x => x.City).HasForeignKey(a => a.CityId).HasConstraintName("CityId");

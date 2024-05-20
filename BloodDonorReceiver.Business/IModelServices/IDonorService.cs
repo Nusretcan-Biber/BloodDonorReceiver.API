@@ -7,7 +7,7 @@ namespace BloodDonorReceiver.Business.IModelServices
     public interface IDonorService
     {
         public BaseResponseModel CreateDonor(DonorDto donorDto);
-        public BaseResponseModel GetDonorByCity(string City);
+        public BaseResponseModel GetDonorByCity(int cityId);
         public BaseResponseModel GetDonorByBloodType(BloodTypeEnum bloodType);
         public BaseResponseModel UpdateDonor(UpdateDonorDto donorDto);
         public BaseResponseModel DeleteDonor(string tcno);

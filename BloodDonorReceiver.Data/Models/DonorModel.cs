@@ -17,7 +17,10 @@ namespace BloodDonorReceiver.Data.Models
         public bool IsCronicIllness { get; set; }
         public string TCNO {  get; set; }
         public Guid UserGuid { get; set; }
+        public int CityId { get; set; }
 
+
+        public virtual ICollection<DonorsCitiesModel> DonorsCities { get; set; }
         public virtual UserModel Users { get; set; }
 
         internal DonorModel()

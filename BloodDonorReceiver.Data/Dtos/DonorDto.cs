@@ -14,5 +14,6 @@ namespace BloodDonorReceiver.Data.Dtos
         public string? Description { get; set; }
         public bool IsCronicIllness { get; set; }
         public string TCNO {  get; set; }
+        public int CityId { get; set; }
     }
 }
