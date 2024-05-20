@@ -14,5 +14,7 @@ namespace BloodDonorReceiver.Business.IModelServices
         public BaseResponseModel CreateReceiver(ReceiverDto receiverDto);
         public BaseResponseModel UpdateReceiver(UpdateReceiverDto updateReceiverDto);
         public BaseResponseModel DeleteReceiver(string tcno);
+        public BaseResponseModel GetReceiverByCity(int cityId);
+        public BaseResponseModel GetReceiverByBloodType(BloodTypeEnum bloodType);
     }
 }

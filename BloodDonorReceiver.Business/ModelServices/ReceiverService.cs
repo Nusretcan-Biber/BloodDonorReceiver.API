@@ -1,11 +1,13 @@
 ﻿using BloodDonorReceiver.Business.IModelServices;
 using BloodDonorReceiver.Core.ResponseHelper;
 using BloodDonorReceiver.Data.Dtos;
+using BloodDonorReceiver.Data.Enums;
 using BloodDonorReceiver.Data.Models;
 using BloodDonorReceiver.DataAccess.Context;
 using BloodDonorReceiver.Utils.AutoMapper;
 using BloodDonorReceiver.Utils.Extensions;
 using BloodDonorReceiver.Utils.UnitOfWorks;
+using Microsoft.EntityFrameworkCore;
 
 namespace BloodDonorReceiver.Business.ModelServices
 {
@@ -62,6 +64,30 @@ namespace BloodDonorReceiver.Business.ModelServices
             }
         }
 
+        public BaseResponseModel GetReceiverByBloodType(BloodTypeEnum bloodType)
+        {
+            using (var uow = new UnitOfWork<MasterContext>())
+            {
+                var isExistDonorList = uow.GetRepository<ReceiverModel>().GetAll(x => x.BloodType == bloodType).AsNoTracking().ToList();
+                if (isExistDonorList.Count == 0)
+                    return new ErrorResponseModel("Böyle bir kan grubuna sahip alıcı yok");
+                return new SuccessResponseModel<List<ReceiverModel>>("Alıcı bulundu. İşlem başarılı", isExistDonorList);
+
+            }
+        }
+
+        public BaseResponseModel GetReceiverByCity(int cityId)
+        {
+            using (var uow = new UnitOfWork<MasterContext>())
+            {
+                var isExistDonorList = uow.GetRepository<ReceiverModel>().GetAll(x => x.CityId == cityId).AsNoTracking().ToList();
+                if (isExistDonorList.Count == 0)
+                    return new ErrorResponseModel("Bu şehirde herhangi bir alıcı bulunmamaktadır");
+                return new SuccessResponseModel<List<ReceiverModel>>("Alıcılar bulundu. İşlem başarılı", isExistDonorList);
+
+            }
+        }
+
         public BaseResponseModel UpdateReceiver(UpdateReceiverDto updateReceiverDto)
         {
             using (var uow = new UnitOfWork<MasterContext>())
@@ -78,5 +104,7 @@ namespace BloodDonorReceiver.Business.ModelServices
                 return new SuccessResponseModel<ReceiverModel>("Alıcı güncellendi. İşlem başarılı");
             }
         }
+
+
     }
 }

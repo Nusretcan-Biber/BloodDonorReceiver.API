@@ -16,7 +16,9 @@ namespace BloodDonorReceiver.Data.Models
         public string? Description { get; set; }
         public Guid UserGuid { get; set; }
         public string TCNO { get; set; }
+        public int CityId { get; set; }
 
+        public virtual ICollection<ReceiversCitiesModel> ReceiversCities { get; set; }
 
         public virtual UserModel Users { get; set; }
 
